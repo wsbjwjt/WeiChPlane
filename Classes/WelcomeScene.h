@@ -14,7 +14,7 @@
 #include "WelcomeLayer.h"
 #include "SimpleAudioEngine.h"
 
-using namespace cocos2d;
+USING_NS_CC;
 
 
 class WelcomeScene : public Scene
