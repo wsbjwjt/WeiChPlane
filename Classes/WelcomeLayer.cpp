@@ -23,6 +23,43 @@ bool WelcomeLayer::init()
     bool bRet = false;
     
     do {
+        CC_BREAK_IF(!Layer::init());
+        
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile("shoot_background.plist");
+        SpriteFrameCache::getInstance()->addSpriteFramesWithFile("shoot.plist");
+        
+        auto winSize = Director::getInstance()->getWinSize();
+        
+        auto background = Sprite::createWithSpriteFrameName("background.png");
+        background->setPosition(Point(winSize.width/2, winSize.height/2));
+        this->addChild(background);
+        
+        auto copyright = Sprite::createWithSpriteFrameName("shoot_copyright.png");
+        copyright->setAnchorPoint(Point::ANCHOR_MIDDLE_BOTTOM);
+        copyright->setPosition(Point(winSize.width/2, winSize.height/2));
+        this->addChild(copyright);
+        
+        auto loading = Sprite::createWithSpriteFrameName("game_loading1.png");
+        loading->setPosition(Point(winSize.width/2, winSize.height/2-40));
+        this->addChild(loading);
+        
+        
+        auto animation = Animation::create();
+        animation->setDelayPerUnit(0.2f);
+        animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("game_loading1.png"));
+        animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("game_loading2.png"));
+        animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("game_loading3.png"));
+        animation->addSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName("game_loading4.png"));
+        
+        auto animate = Animate::create(animation);
+        auto repeat = Repeat::create(animate, 2);
+        auto repeatDone = CallFuncN::create(CC_CALLBACK_1(WelcomeLayer::loadingDone, this));
+        auto sequence = Sequence::create(repeat, repeatDone, nullptr);
+        loading->runAction(sequence);
+        
+        getHighestHistorySorce();
+        
+        
         bRet = true;
     } while (0);
     
@@ -31,7 +68,7 @@ bool WelcomeLayer::init()
 
 void WelcomeLayer::loadingDone(Node* pNode)
 {
-    
+//    auto pScene = GameScene::create();
 }
 
 bool WelcomeLayer::isHaveSaveFile()
@@ -42,5 +79,7 @@ bool WelcomeLayer::isHaveSaveFile()
 
 void WelcomeLayer::getHighestHistorySorce()
 {
-    
+    if (isHaveSaveFile()) {
+        
+    }
 }
