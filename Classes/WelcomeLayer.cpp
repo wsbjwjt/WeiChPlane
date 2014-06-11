@@ -7,6 +7,7 @@
 //
 
 #include "WelcomeLayer.h"
+#include "GameScene.h"
 
 WelcomeLayer::WelcomeLayer(void)
 {
@@ -31,6 +32,7 @@ bool WelcomeLayer::init()
         auto winSize = Director::getInstance()->getWinSize();
         
         auto background = Sprite::createWithSpriteFrameName("background.png");
+//        background->setAnchorPoint(Point(winSize.width/2, winSize.height/2));
         background->setPosition(Point(winSize.width/2, winSize.height/2));
         this->addChild(background);
         
@@ -68,7 +70,9 @@ bool WelcomeLayer::init()
 
 void WelcomeLayer::loadingDone(Node* pNode)
 {
-//    auto pScene = GameScene::create();
+    auto pScene = GameScene::create();
+    auto animateScene = TransitionMoveInB::create(0.5f, pScene);
+    Director::getInstance()->replaceScene(animateScene);
 }
 
 bool WelcomeLayer::isHaveSaveFile()
